@@ -1,13 +1,167 @@
-body {
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100..700&display=swap");
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+:root {
+  --primary-bright-blue: hsl(220, 98%, 61%);
+  --primary-check-background: linear-gradient hsl(192, 100%, 67%) to
+    hsl(280, 87%, 65%);
+  --very-light-gray: hsl(0, 0%, 98%);
+  --very-light-grayish-blue: hsl(236, 33%, 92%);
+  --light-grayish-blue: hsl(233, 11%, 84%);
+  --dark-grayish-blue: hsl(236, 9%, 61%);
+  --very-dark-grayish-blue: hsl(235, 19%, 35%);
 }
+
+[dark-mode="dark"] {
+  --very-dark-blue: hsl(235, 21%, 11%);
+  --light-grayish-blue: hsl(234, 39%, 85%);
+  --very-dark-desaturated-blue: hsl(235, 24%, 19%);
+  --light-grayish-blue-hover: hsl(236, 33%, 92%);
+  --dark-grayish-blue: hsl(234, 11%, 52%);
+  --very-dark-grayish-blue: hsl(233, 14%, 35%);
+  --very-dark-grayish-blue: hsl(237, 14%, 26%);
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+  font-family: "Josefin Sans", sans-serif;
+  background-color: var(--very-light-gray);
+}
+
+.App {
+  width: 100%;
+  background-image: url("./images/bg-desktop-light.jpg");
+  background-repeat: no-repeat;
+}
+
+.todo-list {
+  width: 40%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.nav {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+
+.nav h1 {
+  color: var(--very-light-gray);
+  font-family: "Josefin Sans", sans-serif;
+  letter-spacing: 12px;
+}
+
+.nav img {
+  object-fit: contain;
+}
+
+.todo-input {
+  width: 100%;
+  display: flex;
+  background-color: var(--very-light-gray);
+  padding: 17px 20px;
+  gap: 1.5rem;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.todo-input input[type="text"] {
+  width: 100%;
+  background-color: var(--very-light-gray);
+  color: var(--very-dark-grayish-blue);
+  caret-color: var(--dark-grayish-blue);
+  outline: none;
+  border: none;
+  font-family: "Josefin Sans", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.todos {
+  width: 100%;
+  background-color: var(--very-light-gray);
+  border-radius: 4px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  margin-bottom: 40px;
+}
+
+.todo-items {
+  width: 100%;
+  border-bottom: 1px solid var(--very-light-grayish-blue);
+  padding: 17px 20px;
+}
+
+.todo-items ul li {
+  color: var(--very-dark-grayish-blue);
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+}
+
+.todo-text {
+  display: flex;
+}
+
+.todo-text p {
+  margin-left: 20px;
+}
+
+.circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid var(--very-light-grayish-blue);
+}
+
+footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px;
+  font-size: 0.8rem;
+  color: var(--dark-grayish-blue);
+}
+
+footer div {
+  display: flex;
+  gap: 10px;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 1rem;
+}
+
+.reorder-list {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--dark-grayish-blue);
+}
+
+/* Media query for small screens */
+/* @media (max-width: 600px) {
+  .todo-container {
+    width: 90%;
+  }
+
+  .todo-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .todo-footer {
+    flex-direction: column;
+  }
+
+  .todo-footer button {
+    margin-top: 0.5rem;
+  }
+} */
