@@ -170,6 +170,7 @@ footer {
   padding: 15px 20px;
   font-size: 0.8rem;
   color: var(--dark-grayish-blue);
+  cursor: pointer;
 }
 
 footer div {

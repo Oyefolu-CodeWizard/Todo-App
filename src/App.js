@@ -48,7 +48,12 @@ function App() {
 
 function TodoList() {
   const [todos, setTodos] = useState(initialTodoTask);
+  const [filteredTodos, setFilteredTodos] = useState(initialTodoTask);
   const [task, setTask] = useState("");
+
+  useEffect(() => {
+    setFilteredTodos(todos); // Update filteredTodos whenever todos change
+  }, [todos]);
 
   function handleAddTask(todo) {
     setTodos((todos) => [...todos, todo]);
@@ -73,6 +78,9 @@ function TodoList() {
       {todos.length > 0 && (
         <Todos
           todos={todos}
+          setTodos={setTodos}
+          filteredTodos={filteredTodos}
+          setFilteredTodos={setFilteredTodos}
           onDeleteTask={handleDeleteTask}
           onCompletedTask={handleCompletedTask}
         />
@@ -147,24 +155,36 @@ function TodoInput({ task, setTask, onAddTask }) {
   );
 }
 
-function Todos({ todos, onDeleteTask, onCompletedTask }) {
+function Todos({
+  todos,
+  setTodos,
+  onDeleteTask,
+  onCompletedTask,
+  filteredTodos,
+  setFilteredTodos,
+}) {
   return (
     <div className="todos">
       <TodoItems
         todos={todos}
         onDeleteTask={onDeleteTask}
         onCompletedTask={onCompletedTask}
+        filteredTodos={filteredTodos}
       />
-      <TodoFooter />
+      <TodoFooter
+        todos={todos}
+        setTodos={setTodos}
+        setFilteredTodos={setFilteredTodos}
+      />
     </div>
   );
 }
 
-function TodoItems({ todos, onDeleteTask, onCompletedTask }) {
+function TodoItems({ filteredTodos, onDeleteTask, onCompletedTask }) {
   return (
     <div className="todo-items">
       <ul>
-        {todos.map((task) => (
+        {filteredTodos.map((task) => (
           <Items
             task={task}
             key={task.id}
@@ -187,7 +207,7 @@ function Items({ task, onDeleteTask, onCompletedTask }) {
         >
           <img
             src={iconCheck}
-            alt="iconCheck"
+            alt="check"
             style={task.completed ? { display: "block" } : { display: "none" }}
           />
         </span>
@@ -205,17 +225,55 @@ function Items({ task, onDeleteTask, onCompletedTask }) {
   );
 }
 
-function TodoFooter() {
+function TodoFooter({ todos, setTodos, setFilteredTodos }) {
+  // const [filteredTodos, setFilteredTodos] = useState(todos);
+
+  const numTaskLeft = todos.slice().filter((todo) => !todo.completed).length;
+  const orderNumTaskLeft = numTaskLeft > 1 ? "items" : "item";
+
+  function handleAllTask() {
+    setFilteredTodos(todos);
+  }
+
+  function handleActiveTask() {
+    const activeTodos = todos?.slice().filter((todo) => !todo.completed);
+    setFilteredTodos(activeTodos);
+  }
+
+  function filterCompletedTask() {
+    const completedTodos = todos?.slice().filter((todo) => todo.completed);
+    setFilteredTodos(completedTodos);
+  }
+
+  function handleClearCompletedTask() {
+    const completedTask = todos?.slice().filter((todo) => !todo.completed);
+    setFilteredTodos(completedTask);
+    setTodos(todos?.slice().filter((todo) => !todo.completed));
+  }
+
+  // function sortCompletedTask() {
+  //   const sortedTodos = todos
+  //     .slice()
+  //     .sort((a, b) => Number(a.completed) - Number(b.completed));
+  //   setTodos(sortedTodos);
+  // }
+
   return (
     <footer>
-      <p>X items left</p>
+      <p>
+        {numTaskLeft} {orderNumTaskLeft} left
+      </p>
       <div>
-        <p className="all">All</p>
-        <p>Active</p>
-        <p>Completed</p>
+        <p className="all" onClick={handleAllTask}>
+          All
+        </p>
+        <p className="active" onClick={handleActiveTask}>
+          Active
+        </p>
+        <p onClick={filterCompletedTask}>Completed</p>
       </div>
 
-      <p>Clear Completed</p>
+      <p onClick={handleClearCompletedTask}>Clear Completed</p>
     </footer>
   );
 }
