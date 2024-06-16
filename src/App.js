@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import iconCheck from "./images/icon-check.svg";
 import iconCross from "./images/icon-cross.svg";
 import iconMoon from "./images/icon-moon.svg";
@@ -38,6 +39,8 @@ const initialTodoTask = [
   },
 ];
 
+// let numTaskLeft;
+
 function App() {
   return (
     <div className="App">
@@ -51,8 +54,11 @@ function TodoList() {
   const [filteredTodos, setFilteredTodos] = useState(initialTodoTask);
   const [task, setTask] = useState("");
 
+  const numTaskLeft = filteredTodos.filter((todo) => !todo.completed).length;
+  console.log(numTaskLeft);
+
   useEffect(() => {
-    setFilteredTodos(todos); // Update filteredTodos whenever todos change
+    setFilteredTodos(todos);
   }, [todos]);
 
   function handleAddTask(todo) {
@@ -83,6 +89,7 @@ function TodoList() {
           setFilteredTodos={setFilteredTodos}
           onDeleteTask={handleDeleteTask}
           onCompletedTask={handleCompletedTask}
+          numTaskLeft={numTaskLeft}
         />
       )}
       {todos.length > 0 && <ReOrderTodos />}
@@ -162,6 +169,7 @@ function Todos({
   onCompletedTask,
   filteredTodos,
   setFilteredTodos,
+  numTaskLeft,
 }) {
   return (
     <div className="todos">
@@ -175,6 +183,7 @@ function Todos({
         todos={todos}
         setTodos={setTodos}
         setFilteredTodos={setFilteredTodos}
+        numTaskLeft={numTaskLeft}
       />
     </div>
   );
@@ -225,10 +234,7 @@ function Items({ task, onDeleteTask, onCompletedTask }) {
   );
 }
 
-function TodoFooter({ todos, setTodos, setFilteredTodos }) {
-  // const [filteredTodos, setFilteredTodos] = useState(todos);
-
-  const numTaskLeft = todos.slice().filter((todo) => !todo.completed).length;
+function TodoFooter({ todos, setTodos, setFilteredTodos, numTaskLeft }) {
   const orderNumTaskLeft = numTaskLeft > 1 ? "items" : "item";
 
   function handleAllTask() {
@@ -251,19 +257,12 @@ function TodoFooter({ todos, setTodos, setFilteredTodos }) {
     setTodos(todos?.slice().filter((todo) => !todo.completed));
   }
 
-  // function sortCompletedTask() {
-  //   const sortedTodos = todos
-  //     .slice()
-  //     .sort((a, b) => Number(a.completed) - Number(b.completed));
-  //   setTodos(sortedTodos);
-  // }
-
   return (
     <footer>
       <p>
         {numTaskLeft} {orderNumTaskLeft} left
       </p>
-      <div>
+      <div className="below">
         <p className="all" onClick={handleAllTask}>
           All
         </p>
