@@ -182,7 +182,7 @@ footer div {
   font-size: 1rem;
 }
 
-.all {
+.change--active {
   color: var(--primary-bright-blue);
 }
 
